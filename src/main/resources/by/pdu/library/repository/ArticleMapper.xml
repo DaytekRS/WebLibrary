@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="by.pdu.library.repository.ArticleMapper">
+    <resultMap id="articleResultMap" type="by.pdu.library.domain.Article">
+        <id column="article_id" property="id"/>
+        <result column="article_name" property="name"/>
+        <collection property="catalog" javaType="by.pdu.library.domain.Catalog"
+                    resultMap="by.pdu.library.repository.CatalogMapper.catalogResultMap"/>
+
+        <collection property="authors" javaType="java.util.List"
+                    resultMap="by.pdu.library.repository.AuthorMapper.authorResultMap"/>
+    </resultMap>
+
+    <select id="getArticle" resultMap="articleResultMap">
+        SELECT
+            a.ID as "article_id",
+            a.NAME as "article_name",
+            c.ID as "catalog_id",
+            c.NAME as "catalog_name",
+            aut.ID AS "author_id",
+            aut.NAME AS "author_name"
+        FROM
+            ADMIN.ARTICLE a
+            LEFT JOIN ADMIN.CATALOG c ON a.catalog_id=c.id
+            LEFT JOIN ADMIN.AUTHORS_ARTICLE aa ON aa.ARTICLE_ID = a.ID
+            LEFT JOIN ADMIN.AUTHORS aut ON aa.AUTHOR_ID = aut.ID
+        WHERE
+            a.REMOVED_DATE IS NULL
+    </select>
+
+    <insert id="insertAuthor">
+         INSERT INTO ADMIN.AUTHORS_ARTICLE(AUTHOR_ID,ARTICLE_ID)
+         VALUES (#{authorId},#{articleId})
+    </insert>
+
+    <delete id="removeAllAuthor">
+        DELETE FROM ADMIN.AUTHORS_ARTICLE
+        WHERE ARTICLE_ID =#{id}
+    </delete>
+
+    <insert id="insertArticle">
+          INSERT INTO ADMIN.ARTICLE(ID,NAME,CATALOG_ID)
+          VALUES (#{id},#{name},#{catalogId})
+    </insert>
+
+    <update id="removeArticle">
+        UPDATE ADMIN.ARTICLE
+        SET
+            REMOVED_DATE = (SELECT sysdate FROM DUAL)
+        WHERE id = #{id}
+    </update>
+
+    <select id="nextId" resultType="java.lang.Long">
+        SELECT ADMIN.ARTICLE_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <update id="updateArticle">
+        UPDATE ADMIN.ARTICLE
+        SET
+            NAME = #{name},
+            CATALOG_ID = #{catalogId}
+        WHERE id = #{id}
+    </update>
+</mapper>

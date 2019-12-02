@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="by.pdu.library.repository.LanguageMapper">
+
+    <resultMap id="languageResultMap" type="by.pdu.library.domain.Language">
+        <id column="language_id" property="id"/>
+        <result column="language_name" property="name"/>
+    </resultMap>
+
+    <select id="getLanguageById" resultMap="languageResultMap">
+        SELECT
+            id as "language_id",
+            name as "language_name"
+        FROM
+            admin.language
+        WHERE
+            id = #{id} AND REMOVED_DATE IS NULL
+    </select>
+
+    <select id="getLanguage" resultMap="languageResultMap">
+        SELECT
+            id as "language_id",
+            name as "language_name"
+        FROM
+            admin.LANGUAGE
+        WHERE
+            REMOVED_DATE IS NULL
+    </select>
+
+    <insert id="insertLanguage" >
+        INSERT INTO admin.LANGUAGE(name)
+        VALUES (#{name})
+    </insert>
+
+    <update id="removeLanguage">
+        UPDATE ADMIN.LANGUAGE
+        SET
+            REMOVED_DATE = (SELECT sysdate FROM DUAL)
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateLanguage">
+        UPDATE ADMIN.LANGUAGE
+        SET
+            NAME = #{name}
+        WHERE id = #{id}
+    </update>
+</mapper>
