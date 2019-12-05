@@ -12,7 +12,7 @@ public class Periodic extends Edition {
     private Integer month;
     private List<Article> articles;
 
-    public Periodic(){
+    public Periodic() {
 
     }
 

@@ -14,6 +14,9 @@ import java.util.List;
 public interface BookMapper {
     List<Book> getBook();
 
+    Book getBookById(Long id);
+    Periodic getPeriodicById(Long id);
+
     List<Periodic> getPeriodic();
 
     void insertBook(@Param("id") Long id,

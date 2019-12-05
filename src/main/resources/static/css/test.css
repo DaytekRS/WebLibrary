@@ -134,6 +134,10 @@ input:focus{
     max-height: 200px;
 }
 
+.image-book-container{
+    min-width: 400px;
+    max-width: 400px;
+}
 
 .pulse{
     max-width: 260px;

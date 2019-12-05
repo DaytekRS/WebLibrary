@@ -7,12 +7,12 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Book extends Edition{
+public class Book extends Edition {
     private String description;
     private Catalog catalog;
     private List<Author> authors;
 
-    public Book(){
+    public Book() {
 
     }
 

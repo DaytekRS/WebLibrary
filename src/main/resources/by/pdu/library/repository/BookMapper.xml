@@ -78,8 +78,40 @@
         WHERE
             e.REMOVED_DATE IS NULL
             <if test="name != null">
-                AND e.NAME like #{name}
+                AND lower(e.NAME) like lower(#{name})
             </if>
+    </select>
+
+    <select id="getBookById" resultMap="by.pdu.library.repository.BookMapper.bookResultMap">
+        SELECT
+        e.id as "edition_id",
+        e.year as "edition_year",
+        e.image as "edition_image",
+        e.name as "edition_name",
+        e.price as "edition_price",
+        l.id as "language_id",
+        l.name as "language_name",
+        p.id as "publishingHouse_id",
+        p.name as "publishingHouse_name",
+        c.id as "catalog_id",
+        c.name AS "catalog_name",
+        r.id AS "root_catalog_id",
+        r.name AS "root_catalog_name",
+        b.description as "book_description",
+        a.id as "author_id",
+        a.name as "author_name"
+        FROM
+        ADMIN.EDITION e
+        INNER JOIN ADMIN.BOOKS b ON e.id = b.edition_id
+        LEFT JOIN ADMIN.LANGUAGE l ON e.LANGUAGE_ID=l.id
+        LEFT JOIN ADMIN.PUBLISHING_HOUSE p ON e.PUBLISHING_HOUSE_ID = p.id
+        LEFT JOIN ADMIN.CATALOG c ON b.CATALOG_ID = c.ID
+        LEFT JOIN ADMIN.CATALOG r ON c.root_id = r.id
+        LEFT JOIN ADMIN.AUTHORS_BOOK ab ON ab.BOOK_ID = e.id
+        LEFT JOIN ADMIN.AUTHORS a ON ab.author_id = a.id
+        WHERE
+        e.REMOVED_DATE IS NULL
+        AND e.id = #{id}
     </select>
 
     <select id="getBook" resultMap="by.pdu.library.repository.BookMapper.bookResultMap">
@@ -147,6 +179,43 @@
             LEFT JOIN ADMIN.CATALOG r ON c.root_id = r.id
         WHERE
             e.REMOVED_DATE IS NULL
+    </select>
+
+    <select id="getPeriodicById" resultMap="by.pdu.library.repository.BookMapper.periodicResultMap">
+        SELECT
+        e.id as "edition_id",
+        e.year as "edition_year",
+        e.image as "edition_image",
+        e.name as "edition_name",
+        e.price as "edition_price",
+        l.id as "language_id",
+        l.name as "language_name",
+        ph.id as "publishingHouse_id",
+        ph.name as "publishingHouse_name",
+        p.number_periodic as "periodic_number",
+        p.month as "periodic_month",
+        art.id as "article_id",
+        art.name as "article_name",
+        a.id as "author_id",
+        a.name as "author_name",
+        c.id as "catalog_id",
+        c.name AS "catalog_name",
+        r.id AS "root_catalog_id",
+        r.name AS "root_catalog_name"
+        FROM
+        ADMIN.EDITION e
+        INNER JOIN ADMIN.periodic p ON e.id = p.edition_id
+        LEFT JOIN ADMIN.LANGUAGE l ON e.LANGUAGE_ID=l.id
+        LEFT JOIN ADMIN.publishing_house ph ON e.PUBLISHING_HOUSE_ID = ph.id
+        LEFT JOIN ADMIN.ARTICLE_PERIODIC ap ON ap.periodic_id = p.edition_id
+        LEFT JOIN ADMIN.ARTICLE art ON art.id = ap.article_id
+        LEFT JOIN ADMIN.AUTHORS_ARTICLE ab ON ab.ARTICLE_ID = art.id
+        LEFT JOIN ADMIN.AUTHORS a ON ab.author_id = a.id
+        LEFT JOIN ADMIN.CATALOG c ON c.id = art.catalog_id
+        LEFT JOIN ADMIN.CATALOG r ON c.root_id = r.id
+        WHERE
+        e.REMOVED_DATE IS NULL
+        AND e.id = #{id}
     </select>
 
     <insert id="insertBook">
