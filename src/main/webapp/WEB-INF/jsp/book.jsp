@@ -6,6 +6,14 @@
 <%@ taglib prefix="ui" tagdir="/WEB-INF/tags" %>
 <ui:html title="Library - ${book.getName()}">
     <ui:header/>
+    <c:if test="${param.success eq true}">
+    <div class="container" style="margin-top: 1%;">
+        <div class="alert-normal" style="text-align:center">
+            Спасибо, Ваш заказ принят!
+        </div>
+   </div>
+    </c:if>
+
     <div class="container" style="margin-top: 1%;">
         <div class="d-flex justify-content-start h-100">
 
@@ -26,8 +34,15 @@
                    </tr>
                    <tr>
                         <th height="50px">
-                            <form method="GET" action="/checkout/add.phtml" class="addtocartform">
+                            <form method="post" action="/book?id=${book.id}" >
                                  <input type="submit" value="Заказать" class="btn float-left login_btn" style="width: 200px;height:45px;background:orange;">
+                                 <br><br>
+                                 <select name="readingRooms">
+                                     <option disabled>Выберите читальный зал</option>
+                                     <c:forEach items="${rooms}"  var="room">
+                                        <option value="${room.id}">${room.name}</option>
+                                     </c:forEach>
+                                 </select>
                                  <input type="hidden" name="${_csrf.parameterName}"
                                                                    value="${_csrf.token}"/>
                             </form>
