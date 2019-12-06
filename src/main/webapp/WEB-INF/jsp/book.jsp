@@ -29,7 +29,7 @@
                         </td>
                         <th width="100%" height="50px">
                             <h1>${book.getName()}</h1>
-                            <h5>${book.publishingHouse.getName()},${book.getYear()}<h5>
+                            <h5>${book.publishingHouse.getName()}, ${book.getYear()}<h5>
                         </th>
                    </tr>
                    <tr>

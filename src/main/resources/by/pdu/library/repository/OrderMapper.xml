@@ -4,8 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="by.pdu.library.repository.OrderMapper">
+    <resultMap id="orderResultMap" type="by.pdu.library.domain.Order">
+        <id column="order_id" property="id"/>
+        <result column="employe_fio" property="employe"/>
+        <result column="due_date" property="dueDate"/>
+        <result column="edition_name" property="edition"/>
+        <result column="reading_room_name" property="readingRoom"/>
+    </resultMap>
+
     <insert id="insertOrder">
         INSERT INTO ADMIN.ORDERS(CARD_ID,EDITION_ID,READING_ROOM_ID)
         VALUES (#{card},#{edition},#{room})
     </insert>
+
+    <select id="getOrderByIdUser" resultMap="orderResultMap">
+        SELECT
+        o.id AS "order_id",
+        o.due_date AS "due_date",
+        e.fio AS "employe_fio",
+        ed.name AS "edition_name",
+        r.name AS "reading_room_name"
+        FROM
+        ADMIN.ORDERS o
+        LEFT JOIN ADMIN.EMPLOYE e ON o.edition_id=e.id
+        LEFT JOIN ADMIN.CARD c ON c.id = o.card_id
+        LEFT JOIN ADMIN.EDITION ed ON o.edition_id = ed.id
+        LEFT JOIN ADMIN.READING_ROOM r ON r.id = o.reading_room_id
+        WHERE c.id = #{id}
+        ORDER BY o.id DESC
+    </select>
 </mapper>

@@ -30,7 +30,7 @@
                     </a>
                     <div style="right: 0;left: inherit;" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/orders">Заказы</a>
-                        <a class="dropdown-item" href="#">План закупок</a>
+                        <a class="dropdown-item" href="#">Штрафы</a>
                         <a class="dropdown-item" href="/changePassword">Сменить пароль</a>
                         <div class="dropdown-divider"></div>
                         <form action="/logout" method="post">
