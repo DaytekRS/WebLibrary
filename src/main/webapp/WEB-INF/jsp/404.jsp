@@ -7,12 +7,12 @@
 <ui:html title="Library - Страница не найдена">
     <ui:header/>
     <div class="container" style="margin-top: 5%;">
-                <div class="d-flex justify-content-center h-100">
-                    <div class="card ">
-                        <div class="card-body">
-                           <img src="img/404.png" width="456px">
-                        </div>
-                    </div>
+        <div class="d-flex justify-content-center h-100">
+            <div class="card ">
+                <div class="card-body">
+                    <img src="img/404.png" width="456px">
                 </div>
             </div>
+        </div>
+    </div>
 </ui:html>

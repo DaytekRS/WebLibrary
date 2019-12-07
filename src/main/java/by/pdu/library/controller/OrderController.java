@@ -22,9 +22,7 @@ public class OrderController {
     @RequestMapping("/orders")
     public String orders(Map<String, Object> model) {
         User authUser = userMapper.searchUser(SecurityContextHolder.getContext().getAuthentication().getName());
-        System.out.println(authUser.getCardId());
         model.put("orders", orderMapper.getOrderByIdUser(authUser.getCardId()));
-        System.out.println(orderMapper.getOrderByIdUser(authUser.getCardId()).get(0).getEmploye());
         return "orders";
     }
 }
