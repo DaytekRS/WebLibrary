@@ -26,7 +26,7 @@
         r.name AS "reading_room_name"
         FROM
         ADMIN.ORDERS o
-        LEFT JOIN ADMIN.EMPLOYE e ON o.edition_id=e.id
+        LEFT JOIN ADMIN.EMPLOYE e ON o.employe_id=e.id
         LEFT JOIN ADMIN.CARD c ON c.id = o.card_id
         LEFT JOIN ADMIN.EDITION ed ON o.edition_id = ed.id
         LEFT JOIN ADMIN.READING_ROOM r ON r.id = o.reading_room_id

@@ -16,18 +16,24 @@
                     <th style="text-align:center">Читальный зал</th>
                     <th style="text-align:center">Статус</th>
                 </tr>
-                <c:forEach items="${orders}" var="order">
-                    <tr>
-                        <th>${order.id}</th>
-                        <th>${order.edition}</th>
-                        <th>${order.readingRoom}</th>
-                        <th>
-                            <c:if test="${order.employe eq null}">
-                                Ожидает сборки
-                            </c:if>
-                        </th>
-                    </tr>
-                </c:forEach>
+                <c:if test ="${orders.size() > 0}">
+                    <c:forEach items="${orders}" var="order">
+                        <tr>
+                            <th>${order.id}</th>
+                            <th>${order.edition}</th>
+                            <th>${order.readingRoom}</th>
+                            <th>
+                                <c:if test="${order.employe eq null}">
+                                    Ожидает сборки
+                                </c:if>
+
+                                <c:if test="${order.employe ne null && order.dueDate eq null}">
+                                       Собран
+                                </c:if>
+                            </th>
+                        </tr>
+                    </c:forEach>
+                </c:if>
             </table>
         </div>
     </div>
